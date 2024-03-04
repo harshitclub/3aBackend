@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 async function connect() {
   try {
-    mongoose.connect(
-      "mongodb+srv://3alearnings:Harshit7505@cluster0.0vjot11.mongodb.net"
-    );
+    mongoose.connect(process.env.MONGO_URL);
     const connection = mongoose.connection;
 
     connection.on("connected", () => {
