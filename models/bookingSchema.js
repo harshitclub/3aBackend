@@ -5,52 +5,76 @@ const bookingSchema = new mongoose.Schema(
     fullName: {
       type: String,
       required: true,
+      trim: true,
     },
-    organization: {
+    companyName: {
       type: String,
-      required: true,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
+      trim: true,
+      lowercase: true, // Convert to lowercase for case-insensitive matching
+      validate: {
+        validator: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+        message: "Please enter a valid email address.",
+      },
     },
     phone: {
       type: String,
+      required: true,
+      trim: true,
     },
     telephone: {
       type: String,
+      trim: true,
     },
     country: {
       type: String,
+      required: true,
+      trim: true,
     },
     city: {
       type: String,
+      required: true,
+      trim: true,
     },
     postalCode: {
       type: String,
+      required: true,
+      trim: true,
     },
-    address: {
+    postalAddress: {
       type: String,
-      default: "",
+      required: true,
+      trim: true,
     },
-    courseTitle: {
+    courseName: {
       type: String,
-      default: "",
+      required: true,
+      trim: true,
     },
     courseCode: {
       type: String,
-      default: "",
-    },
-    courseStartDate: {
-      type: Date,
-    },
-    courseLocation: {
-      type: String,
-      default: "",
+      required: true,
+      trim: true,
     },
     courseFee: {
       type: String,
-      default: "",
+      required: true,
+    },
+    courseStartDate: {
+      type: String,
+      required: true,
+    },
+    trainingMode: {
+      type: String,
+      required: true,
+    },
+    paymentMethod: {
+      type: String,
+      required: true,
     },
   },
   {

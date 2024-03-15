@@ -1,11 +1,15 @@
 const express = require("express");
-const { enquiryForm } = require("../controllers/formControllers");
+const {
+  enquiryForm,
+  bookingForm,
+  contactForm,
+} = require("../controllers/formControllers");
 
 const formRouter = express.Router();
 
 formRouter.post("/enquiry", enquiryForm);
-formRouter.post("/booking");
-formRouter.post("/join");
-formRouter.post("/contact");
+formRouter.post("/booking", bookingForm);
+formRouter.post("/contact", contactForm);
+// formRouter.post("/join");
 
 module.exports = { formRouter };

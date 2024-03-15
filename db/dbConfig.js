@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 async function connect() {
   try {
-    mongoose.connect(process.env.MONGO_URL);
+    mongoose.connect(`${process.env.MONGO_URL}/solutions`);
     const connection = mongoose.connection;
 
     connection.on("connected", () => {
