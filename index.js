@@ -23,7 +23,7 @@ app.use(express.json({ limit: "16kb" })); // Parse JSON data with limit
 app.use(express.urlencoded({ extended: true, limit: "16kb" })); // Parse URL-encoded data with limit
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGINS, // Restrict CORS origins
+    origin: [process.env.ALLOWED_ORIGIN1, process.env.ALLOWED_ORIGIN2], // Restrict CORS origins
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
