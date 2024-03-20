@@ -1,78 +1,19 @@
 const nodemailer = require("nodemailer");
 const { convert } = require("html-to-text");
 
-//   fullName,
-//   companyName,
-//   email,
-//   phone,
-//   telephone,
-//   country,
-//   city,
-//   postalCode,
-//   postalAddress,
-//   courseName,
-//   courseCode,
-//   courseFee,
-//   courseStartDate,
-//   trainingMode,
-//   paymentMethod,
-// }) => {
-//   try {
-//     var transport = nodemailer.createTransport({
-//       name: "mail.campussutras.com",
-//       host: "mail.campussutras.com",
-//       port: 465,
-//       secure: true,
-//       auth: {
-//         user: process.env.MAIL_USER,
-//         pass: process.env.MAIL_PASSWORD,
-//       },
-//     });
+// Create transporter once and reuse
+const transporter = nodemailer.createTransport({
+  name: process.env.MAIL_HOST,
+  host: process.env.MAIL_HOST,
+  port: process.env.MAIL_PORT,
+  secure: true,
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASSWORD,
+  },
+  pool: true, // Enable connection pooling
+});
 
-//     const mailOptions = {
-//       from: `"3a Learning Solutions" <noreply@campussutras.com>`,
-//       to: "gautamharshit41@gmail.com",
-//       subject: `Booking Form - 3a Learning Solutions`,
-//       html: `
-//         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-//       <html xmlns="http://www.w3.org/1999/xhtml">
-
-//       <head>
-//         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <title>Booking Form</title>
-//         <!--[if mso]><style type="text/css">body, table, td, a { font-family: Arial, Helvetica, sans-serif !important; }</style><![endif]-->
-//       </head>
-
-//       <body style="font-family: Helvetica, Arial, sans-serif; margin: 0px; padding: 0px; background-color: #ffffff;">
-//         <h1>Booking Form</h1>
-//         <p><b>Name - </b>${fullName}</p>
-//         <p><b>Company - </b>${companyName}</p>
-//         <p><b>Email - </b>${email}</p>
-//         <p><b>Phone - </b>${phone}</p>
-//         <p><b>Telephone - </b>${telephone}</p>
-//         <p><b>Country - </b>${country}</p>
-//         <p><b>City - </b>${city}</p>
-//         <p><b>Postal Code - </b>${postalCode}</p>
-//         <p><b>Postal Address - </b>${postalAddress}</p>
-//         <p><b>Course Name - </b>${courseName}</p>
-//         <p><b>Course Code - </b>${courseCode}</p>
-//        <p><b>Course Fee - </b>$${courseFee}</p>
-//         <p><b>Course Start Date - </b>${courseStartDate}</p>
-//         <p><b>Training Mode - </b>${trainingMode}</p>
-//         <p><b>Payment Method - </b>${paymentMethod}</p>
-//       </body>
-
-//       </html>
-//         `,
-//     };
-//     const mailResponse = await transport.sendMail(mailOptions);
-//     console.log(mailResponse);
-//     return mailResponse;
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// };
 const sendDetails = async ({
   fullName,
   companyName = "", // Set default for optional companyName
@@ -91,18 +32,6 @@ const sendDetails = async ({
   paymentMethod,
 }) => {
   try {
-    // Load environment variables securely using dotenv (recommended)
-    const transporter = nodemailer.createTransport({
-      name: process.env.MAIL_HOST,
-      host: process.env.MAIL_HOST,
-      port: process.env.MAIL_PORT,
-      secure: true,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
-
     // Improved HTML template with placeholders and conditional logic
     const html = `
     <!DOCTYPE html>
@@ -223,17 +152,6 @@ const sendEnquiry = async ({
   message,
 }) => {
   try {
-    var transport = nodemailer.createTransport({
-      name: process.env.MAIL_HOST,
-      host: process.env.MAIL_HOST,
-      port: process.env.MAIL_PORT,
-      secure: true,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
-
     const mailOptions = {
       from: `"3a Learning Solutions" ${process.env.MAIL_USER}`,
       to: `${email}, info@3alearningsolutions.com`,
@@ -333,7 +251,7 @@ const sendEnquiry = async ({
       </html>
        `,
     };
-    const mailResponse = await transport.sendMail(mailOptions);
+    const mailResponse = await transporter.sendMail(mailOptions);
     console.log("Mail sent successfully:", mailResponse.messageId);
     return mailResponse;
   } catch (error) {
@@ -356,17 +274,6 @@ const sendContact = async ({
   message,
 }) => {
   try {
-    var transport = nodemailer.createTransport({
-      name: process.env.MAIL_HOST,
-      host: process.env.MAIL_HOST,
-      port: process.env.MAIL_PORT,
-      secure: true,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
-
     const mailOptions = {
       from: `"3a Learning Solutions" ${process.env.MAIL_USER}`,
       to: `${email}, info@3alearningsolutions.com`,
@@ -466,7 +373,7 @@ const sendContact = async ({
       </body>
       </html>`,
     };
-    const mailResponse = await transport.sendMail(mailOptions);
+    const mailResponse = await transporter.sendMail(mailOptions);
     console.log("Mail sent successfully:", mailResponse.messageId);
     return mailResponse;
   } catch (error) {
