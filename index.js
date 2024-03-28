@@ -28,9 +28,14 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 ); // Enable CORS with restrictions
-app.use(morgan("dev")); // Log requests for debugging (remove in production)
+app.use(cors());
+app.use(morgan("dev"));
 
 app.use("/api/v1", formRouter);
+app.use(async (req, res, next) => {
+  await connect();
+  next();
+});
 
 app.listen(PORT, async () => {
   try {
