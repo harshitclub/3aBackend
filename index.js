@@ -36,13 +36,18 @@ app.use(async (req, res, next) => {
   await connect();
   next();
 });
-
-app.listen(PORT, async () => {
-  try {
-    await connect(); // Ensure database connection
-    console.log(`Server running at port: ${PORT}`);
-  } catch (error) {
-    console.error("Database connection error:", error);
-    process.exit(1); // Exit with error if connection fails
-  }
+app.use("/", (req, res) => {
+  return res.json({
+    message: "now working fine!",
+  });
 });
+
+// app.listen(PORT, async () => {
+//   try {
+//     await connect(); // Ensure database connection
+//     console.log(`Server running at port: ${PORT}`);
+//   } catch (error) {
+//     console.error("Database connection error:", error);
+//     process.exit(1); // Exit with error if connection fails
+//   }
+// });
